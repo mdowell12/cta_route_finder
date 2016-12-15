@@ -1,0 +1,15 @@
+
+
+.eta-display {
+	display: inline-block;
+    width: 150px;
+    height: 75px;
+    margin: 10px;
+    border: 3px solid grey;
+    background: #B3DDF2;
+
+}
+
+.dark-blue-cta {
+	background: #059;
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<title>CTA Route Ranker</title>
+<head>
+	<link rel="stylesheet" type=text/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type=test/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+	<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+	<div class="supercontainer">
+		<div class="container">
+		{% for eta in etas %}
+		
+			<div class="eta-display">
+				{{ eta.rt}}
+				{{ eta.staNm }}
+				{{ eta.destNm }}
+				{{ eta.eta_from_request_time }}
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</body>
