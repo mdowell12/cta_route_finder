@@ -1,22 +1,40 @@
 <!doctype html>
 <title>CTA Route Ranker</title>
 <head>
-	<link rel="stylesheet" type=text/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type=test/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-	<link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type=text/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type=test/css href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-	<div class="supercontainer">
-		<div class="container">
-		{% for eta in etas %}
-		
-			<div class="eta-display">
-				{{ eta.rt}}
-				{{ eta.staNm }}
-				{{ eta.destNm }}
-				{{ eta.eta_from_request_time }}
-			</div>
-		{% endfor %}
-		</div>
-	</div>
+    <div class="supercontainer">
+        <div class="container">
+        {% for stop in stops %}
+
+            {% if stop.has_nonnegative_leave_time %}
+                {% for lt in stop.leave_times %}
+
+                        {% if lt.leave_time > 0 %}
+                            <div class="eta-display">
+                            <h3>{{ stop.station_name}}</h3>
+                            <h5>{{ lt.route_name | route_name_map }}</h5>
+                            <span class="leave-time">
+                                Leave in {{ lt.leave_time | pretty_minutes }}
+                            </span>
+                            <span class="eta-and-walk-time">
+                                ({{ lt.eta | pretty_minutes }} - {{ lt.walk_time_min | pretty_minutes}} walk time)
+                            </span>
+                            </div>
+                        {% endif %}
+
+                {% endfor %}
+            {% else %}
+                <div class="eta-display">
+                    {{ stop.station_name}}
+                    <p>You better run because next one comes in {{ stop.leave_times[0].eta | pretty_minutes }}.</p>
+                </div>
+            {% endif %}
+               
+        {% endfor %}
+        </div>
+    </div>
 </body>
