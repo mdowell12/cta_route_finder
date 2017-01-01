@@ -16,13 +16,3 @@ def pretty_minutes_filter(i):
     else:
         return "Leave now!"
 
-
-def route_name_map_filter(r):
-    """
-    CTA API returns weird route names sometimes.  Map them to pretty values here.
-    """
-    m = {
-        "G": "Green"
-    }
-
-    return m[r] if r in m else r

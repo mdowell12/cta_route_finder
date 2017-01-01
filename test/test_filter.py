@@ -25,12 +25,3 @@ class TestJinjaFilters(unittest.TestCase):
 
         x = filter_mod.pretty_minutes_filter(0.2)
         self.assertEqual(x, PRETTY_MINUTES_LEAVE_NOW_TEXT)
-
-
-    def test_route_name_map_filter(self):
-
-        x = filter_mod.route_name_map_filter("G")
-        self.assertEqual(x, "Green")
-
-        x = filter_mod.route_name_map_filter("centaurs")
-        self.assertEqual(x, "centaurs")

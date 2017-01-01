@@ -3,7 +3,7 @@ from flask import Flask, render_template
 
 from models.stop import Stop
 
-from filters.filter import pretty_minutes_filter, seconds_to_minutes_filter, route_name_map_filter
+from filters.filter import pretty_minutes_filter, seconds_to_minutes_filter
 
 app = Flask('lib', template_folder="../public/templates", static_folder="../public")
 
@@ -11,13 +11,12 @@ app = Flask('lib', template_folder="../public/templates", static_folder="../publ
 
 app.jinja_env.filters["seconds_to_minutes"] = seconds_to_minutes_filter
 app.jinja_env.filters["pretty_minutes"]     = pretty_minutes_filter
-app.jinja_env.filters["route_name_map"]     = route_name_map_filter
 
 
-STOPS = [ 
+STOPS = [
     Stop.create_stop("chicago"),
-    Stop.create_stop("ashland")
-    # Stop("grand_ogden", direction="east")
+    Stop.create_stop("ashland"),
+    Stop.create_stop("grand_ogden")
 ]
 
 

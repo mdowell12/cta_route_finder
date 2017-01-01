@@ -3,3 +3,4 @@ cta_api:
   train: 905b83454cd246f5a2624e491ddbea2c
   train_url: http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx
   bus: vcmLZ8ijQBfAa85dx674crqpT
+  bus_url: http://www.ctabustracker.com/bustime/api/v2/getpredictions
