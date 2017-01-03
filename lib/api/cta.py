@@ -60,7 +60,7 @@ def get_bus_etas(route, station_id, direction_id, max_results=None):
     tree = ET.fromstring(res.text)
 
     if tree.find('error') is not None:
-        raise Exception("Error returned by bus API: {}".format(tree.find('error').text))
+        raise Exception("Error returned by bus API: {}".format(tree.find('error').find('msg').text))
 
     return tree.findall('prd')
 
