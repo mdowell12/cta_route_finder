@@ -1,13 +1,29 @@
 var LeaveTime = React.createClass({
     render: function() {
-        console.log(this.props.item);
-        let data = this.props.item;
+        console.log(this.props.leaveTime);
+        let data = this.props.leaveTime;
 
-        return (
-            <div className="eta-display">
-                <h3>{data.station_name}</h3>
-            </div>
-        );
+        if (data.leave_time < 0) {
+            return null;
+        } else {
+            return (
+                <div className="eta-display">
+                    <div>
+                        <h3>{data.station_name}</h3>
+                    </div>
+
+                    <div>
+                        <h5>{ data.route_name }</h5>
+                        <span className="leave-time">
+                            Leave in { data.leave_time } mins.
+                        </span>
+                        <span className="eta-and-walk-time">
+                            ({ data.eta } mins - { this.props.walkTime } mins walk time)
+                        </span>
+                    </div>
+                </div>
+            );
+        }
     }
 });
 
@@ -28,8 +44,10 @@ var Container = React.createClass({
         ;
     },
 
-    renderLeaveTime(item) {
-        return <LeaveTime item={item} />;
+    renderETA(item) {
+        return item.leave_times.map(function(lt) {
+            return <LeaveTime leaveTime={lt} walkTime={item.walk_time_min} />;
+        })
     },
 
     componentDidMount() {
@@ -39,37 +57,10 @@ var Container = React.createClass({
     render: function() {
         console.log(this.state);
         return (
-            <div>
-                {this.state.data ? this.state.data.map(this.renderLeaveTime) : null}
+            <div className="container">
+                {this.state.data ? this.state.data.map(this.renderETA) : null}
             </div>
         );
     }
 });
 React.render(<Container />, document.getElementById('mount-point') );
-
-/*
-{% if stop.has_nonnegative_leave_time %}
-    {% for lt in stop.leave_times %}
-
-            {% if lt.leave_time > 0 %}
-                <div class="eta-display">
-                <h3>{{ stop.station_name}}</h3>
-                <h5>{{ lt.route_name | route_name_map }}</h5>
-                <span class="leave-time">
-                    Leave in {{ lt.leave_time | pretty_minutes }}
-                </span>
-                <span class="eta-and-walk-time">
-                    ({{ lt.eta | pretty_minutes }} - {{ lt.walk_time_min | pretty_minutes}} walk time)
-                </span>
-                </div>
-            {% endif %}
-
-    {% endfor %}
-    {% else %}
-    <div class="eta-display">
-        {{ stop.station_name}}
-        <p>You better run because next one comes in {{ stop.leave_times[0].eta | pretty_minutes }}.</p>
-    </div>
-    {% endif %}
-
-*/
