@@ -91,6 +91,13 @@ class BusStop(object):
         self.leave_times = [LeaveTime(cta.eta_in_minutes_bus(eta), self.walk_time_min, cta.route_name_from_eta_bus(eta)) for eta in etas]
         self.has_nonnegative_leave_time = any(l.leave_time > 0 for l in self.leave_times)
 
+    def to_dict(self):
+        return dict(
+                station_name = self.station_name,
+                walk_time_min = self.walk_time_min,
+                leave_times = [l.__dict__ for l in self.leave_times]
+            )
+
     @staticmethod
     def _is_valid_eta(eta_obj):
         eta_in_mins = cta.eta_in_minutes_bus(eta_obj)

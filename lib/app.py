@@ -16,8 +16,8 @@ app.jinja_env.filters["pretty_minutes"]     = pretty_minutes_filter
 
 STOPS = [
     Stop.create_stop("chicago"),
-    Stop.create_stop("ashland")
-    # Stop.create_stop("grand_ogden")
+    Stop.create_stop("ashland"),
+    Stop.create_stop("grand_ogden")
 ]
 
 
@@ -30,12 +30,13 @@ def index():
     return render_template('index.html')
 
 @app.route("/api")
-def api():
-    for stop in STOPS:
-        stop.set_leave_times()
+# def api():
+#     for stop in STOPS:
+#         stop.set_leave_times()
 
-    data = [stop.to_dict() for stop in STOPS]
-    return json.dumps(data)
+#     data = [stop.to_dict() for stop in STOPS]
+#     return json.dumps(data)
+def api(): return json.dumps([{"chicago": 5}, {"ashland": 2}])
 
 
 if __name__ == "__main__":
