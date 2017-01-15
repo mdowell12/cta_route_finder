@@ -4,10 +4,10 @@ test:
 	python -m unittest discover
 
 js:
-	cd public/build; webpack --display-error-details
+	npm run webpack
 
 watch:
-	cd public/build; webpack --display-error-details --progress --colors --watch
+	npm run watch
 
 clean:
 	rm -rf ./public/dist/*

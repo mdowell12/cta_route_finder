@@ -1,32 +1,3 @@
-// module.exports = {
-//      devtool: "#inline-source-map",
-//      entry: {
-//         javascript: "./public/js/app.js",
-//         html: './public/templates/index.html'
-//      },
-//      output: {
-//          path: './public/dist',
-//          filename: 'app.bundle.js',
-//      },
-//     resolve: {
-//       extensions: ['', '.js', '.jsx', '.json']
-//     },
-//     module: {
-//       loaders: [
-//         {
-//           test: /\.jsx?$/,
-//           exclude: /node_modules/,
-//           loaders: ["babel-loader"]
-//         },
-// 	{
-//           test: /\.html$/,
-//           loader: "file?name=[name].[ext]",
-//         }
-//       ]
-//     }
-// }
-
-
 var path = require('path');
 
 module.exports = {
@@ -39,7 +10,7 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     output: {
-        path: "./public/dist",
+        path: "public/dist",
         filename: "[name].js"
     },
     module: {
@@ -50,7 +21,6 @@ module.exports = {
                 query: {
                     presets: ['es2015'],
                     plugins: ['syntax-jsx']
-                    // plugins: ['syntax-jsx', 'transform-h-jsx']
                 }
             }
         ],

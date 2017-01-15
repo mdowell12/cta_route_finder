@@ -1,15 +1,20 @@
 
 
 .eta-display {
-	display: inline-block;
-    width: 150px;
-    height: 75px;
-    margin: -1px;
+    display: inline-block;
+    /*align-content: center;*/
+    padding: 1%;
+    width: 200px;
+    height: 175px;
+    margin: 1px;
     border: 0px solid grey;
     background: #B3DDF2;
+}
 
+.eta-display .number {
+    font-size: xx-large;
 }
 
 .dark-blue-cta {
-	background: #059;
+    background: #059;
 }

@@ -1,8 +1,12 @@
 {
   "name": "cta-route-finder",
   "version": "1.0.0",
-  "description": "",
+  "description": "Find the best way to your destination via the Chicago Transit Authority.",
   "author": "Matt Dowell",
+  "scripts": {
+    "webpack": "./node_modules/.bin/webpack --progress  --display-error-details",
+    "watch": "./node_modules/.bin/webpack --progress --watch  --display-error-details"
+  },
   "devDependencies": {
     "babel-core": "^6.7.7",
     "babel-loader": "^6.2.4",
@@ -12,11 +16,16 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-3": "^6.5.0",
     "babelify": "^7.2.0",
+    "esutils": "^2.0.2",
+    "masonry-layout": "^4.1.1",
+    "react-masonry-mixin": "^2.1.0",
     "webpack": "^1.13.2"
   },
   "dependencies": {
     "esutils": "^2.0.2",
+    "masonry-layout": "^4.1.1",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-masonry-component": "^5.0.3"
   }
 }

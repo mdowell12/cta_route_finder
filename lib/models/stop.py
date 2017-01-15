@@ -45,7 +45,7 @@ class TrainStop(object):
         self.leave_times = []
         self.has_nonnegative_leave_time = False
 
-    def set_leave_times(self):
+    def refresh_leave_times(self):
         self.leave_times = []
 
         etas = cta.get_train_etas(self._stop_id, direction_id=self._direction_id)
@@ -81,7 +81,7 @@ class BusStop(object):
         self.leave_times = []
         self.has_nonnegative_leave_time = False
 
-    def set_leave_times(self):
+    def refresh_leave_times(self):
         self.leave_times = []
 
         etas = cta.get_bus_etas(self._stop_id, self._bus_stop_id, self._direction_id)

@@ -23,20 +23,15 @@ STOPS = [
 
 @app.route("/")
 def index():
-    
-
-    # print {stop.station_name: [(l.eta, l.leave_time, l.route_name) for l in stop.leave_times] for stop in STOPS}
-    # return render_template('index.html', stops=STOPS)
     return render_template('index.html')
 
 @app.route("/api")
-# def api():
-#     for stop in STOPS:
-#         stop.set_leave_times()
+def api():
+    for stop in STOPS:
+        stop.refresh_leave_times()
 
-#     data = [stop.to_dict() for stop in STOPS]
-#     return json.dumps(data)
-def api(): return json.dumps([{"chicago": 5}, {"ashland": 2}])
+    data = [stop.to_dict() for stop in STOPS]
+    return json.dumps(data)
 
 
 if __name__ == "__main__":

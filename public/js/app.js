@@ -2,46 +2,63 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Masonry = require('react-masonry-component');
 
+var masonryOptions = {
+    transitionDuration: 0
+};
 
-// var LeaveTime = React.createClass({
-//     render: function() {
-//         console.log(this.props.leaveTime);
-//         let data = this.props.leaveTime;
+class Utils {
+    static prettyMinutes (s) {
+        return Math.round(s);
+    };
+};
 
-//         if (data.leave_time < 0) {
-//             return null;
-//         } else {
-//             return (
-//                 <div className="eta-display">
-//                     <div>
-//                         <h3>{data.station_name}</h3>
-//                     </div>
+class LeaveTime extends React.Component {
 
-//                     <div>
-//                         <h5>{ data.route_name }</h5>
-//                         <span className="leave-time">
-//                             Leave in { data.leave_time } mins.
-//                         </span>
-//                         <span className="eta-and-walk-time">
-//                             ({ data.eta } mins - { this.props.walkTime } mins walk time)
-//                         </span>
-//                     </div>
-//                 </div>
-//             );
-//         }
-//     }
-// });
-
-class MattDowellContainer extends React.Component {
-    // getInitialState() {
-    //     return {data: null};
-    // }
     constructor () {
         super();
-        // this.data = null;
-        // this.setState({test: "test"})
+    }
 
+    renderLeaveTime (leaveTime) {
+        return leaveTime === 0 ? <p>Leave now!</p>
+                : <p className="leave-time">Leave in <span className="number">{ leaveTime }</span> mins.</p>
+                ;
+    }
+
+    render () {
+        // console.log(this.props.leaveTime);
+        let data = this.props.leaveTime;
+
+        let routeName = data.route_name;
+        let leaveTime = Utils.prettyMinutes(data.leave_time);
+        let walkTime  = Utils.prettyMinutes(this.props.walkTime);
+        let eta       = Utils.prettyMinutes(data.eta);
+
+        if (data.leave_time < 0) {
+            return null;
+        } else {
+            return (
+                <Masonry
+                    options={masonryOptions}
+                >
+                    <div className="eta-display">
+                        <h5>{ routeName }</h5>
+                        { this.renderLeaveTime(leaveTime) }
+                        <p className="eta-and-walk-time">
+                            ({ eta } mins - { walkTime } mins walk time)
+                        </p>
+                    </div>
+                </Masonry>
+            );
+        }
+    }
+};
+
+class Container extends React.Component {
+
+    constructor () {
+        super();
         this.getData();
     }
 
@@ -59,36 +76,23 @@ class MattDowellContainer extends React.Component {
         ;
     }
 
-    renderETA(item, i) {
-        // return item.leave_times.map(function(lt) {
-        //     // return <LeaveTime leaveTime={lt} walkTime={item.walk_time_min} />;
-        //     return <p>test</p>
-        // })
-        return <p key={i}>inside</p>;
+    renderETA(item) {
+        return item.leave_times.map((lt, j) => <LeaveTime key={j} leaveTime={lt} walkTime={item.walk_time_min} />)
     }
-
-    // componentDidMount() {
-    //     console.log("COOMPNTENT MOUNTED");
-    //     this.getData(this);
-    // }
 
     render () {
         if (this.state) {
-            // console.log(this.state.data.map(a => a));
-            // return <div>I did it</div>
             let data = this.state.data;
-            console.log(data)
+
             return (
                 <div className="container">
-                    test
-                    {data ? data.map((obj, i) => this.renderETA(obj, i)) : "no data"}
-                    {/*data ? data.map(a => <p>inside</p>) : "no data"*/}
+                    {data ? data.map(obj => this.renderETA(obj)) : "No route found!"}
                 </div>
             );
         } else {
-            return <h1>Loading...</h1>
+            return <h3>Loading...</h3>
         }
     }
 };
 
-ReactDOM.render(<MattDowellContainer />, document.getElementById('mount-point') );
+ReactDOM.render(<Container />, document.getElementById('mount-point') );
