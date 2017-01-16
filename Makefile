@@ -1,4 +1,7 @@
-all: js
+all: run
+
+run:
+	python -m lib.app
 
 test:
 	python -m unittest discover

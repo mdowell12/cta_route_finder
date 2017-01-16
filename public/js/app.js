@@ -6,7 +6,8 @@ var Masonry = require('react-masonry-component');
 
 
 var masonryOptions = {
-    transitionDuration: 0
+    transitionDuration: 0,
+    columnWidth: 1
 };
 
 const MASONRY_ITEM_CLASSES = [
@@ -17,6 +18,7 @@ const MASONRY_ITEM_CLASSES = [
 
 class Utils {
     static prettyMinutes (s) {
+        // console.log(s)
         return Math.round(s);
     };
 };
@@ -28,6 +30,10 @@ class LeaveTime extends React.Component {
     }
 
     gridItemClass (i) {
+        if (i == 0) {
+            return 'grid-item-first'
+        }
+
         return MASONRY_ITEM_CLASSES[i % MASONRY_ITEM_CLASSES.length];
     }
 
@@ -38,27 +44,21 @@ class LeaveTime extends React.Component {
     }
 
     render () {
-        let data = this.props.leaveTime;
+        var routeName = this.props.routeName;
+        var leaveTime = Utils.prettyMinutes(this.props.leaveTime);
+        var walkTime  = Utils.prettyMinutes(this.props.walkTime);
+        var eta       = Utils.prettyMinutes(this.props.eta);
+        var color     = this.props.color || "";
 
-        let routeName = data.route_name;
-        let leaveTime = Utils.prettyMinutes(data.leave_time);
-        let walkTime  = Utils.prettyMinutes(this.props.walkTime);
-        let eta       = Utils.prettyMinutes(data.eta);
-        let color     = data.color || "";
-
-        if (data.leave_time < 0) {
-            return null;
-        } else {
-            return (
-                    <div className={`eta-display ${this.gridItemClass(this.props.index)} ${color}`}>
-                        <h5>{ routeName }</h5>
-                        { this.renderLeaveTime(leaveTime) }
-                        <p className="eta-and-walk-time">
-                            ({ eta } mins - { walkTime } mins walk time)
-                        </p>
-                    </div>
-            );
-        }
+        return (
+                <div className={`eta-display ${this.gridItemClass(this.props.index)} ${color}`}>
+                    <h5>{ routeName }</h5>
+                    { this.renderLeaveTime(leaveTime) }
+                    <p className="eta-and-walk-time">
+                        ({ eta } mins - { walkTime } mins walk time)
+                    </p>
+                </div>
+        );
     }
 };
 
@@ -90,21 +90,31 @@ class Container extends React.Component {
         ;
     }
 
-    renderETA(item) {
-        return item.leave_times.map((lt, j) => <LeaveTime key={j} index={j} leaveTime={lt} walkTime={item.walk_time_min} />)
+    renderLeaveTime(eta, i) {
+        return <LeaveTime
+                    key={i}
+                    index={i}
+
+                    leaveTime={eta.leave_time}
+                    walkTime={eta.walk_time_min}
+                    eta={eta.eta}
+                    routeName={eta.route_name}
+                    station={eta.station_name}
+                    color={eta.color}
+                />
     }
 
     render () {
-        if (this.state.data) {
-            let data = this.state.data;
+        let data = this.state.data;
 
+        if (data) {
             return (
                 <div className="container app">
                     <Masonry
                         options={masonryOptions}
                         className="masonry"
                     >
-                    {data ? data.map(obj => this.renderETA(obj)) : "No route found!"}
+                    {(data.length > 0) ? data.map((eta, i) => this.renderLeaveTime(eta, i)) : "No route found!"}
                     </Masonry>
                 </div>
             );
