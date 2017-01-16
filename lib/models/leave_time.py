@@ -4,7 +4,7 @@ from ..api import cta
 
 class LeaveTime(object):
 
-    def __init__(self, eta_in_minutes, walk_time_min, route_name):
+    def __init__(self, eta_in_minutes, walk_time_min, route_name=None, color=None):
 
         self.eta = eta_in_minutes
         self.walk_time_min = walk_time_min
@@ -12,6 +12,7 @@ class LeaveTime(object):
 
         # Bus/Train information
         self.route_name = route_name
+        self.color = color.lower() if color else None
 
     @staticmethod
     def calculate_leave_time(eta, walk_time_min):

@@ -52,8 +52,17 @@ class TrainStop(object):
         etas = filter(lambda eta: self._is_valid_eta(eta), etas)
         etas = sorted(etas, key=(lambda eta: cta.eta_in_minutes_train(eta)))
 
-        self.leave_times = [LeaveTime(cta.eta_in_minutes_train(eta), self.walk_time_min, cta.route_name_from_eta_train(eta)) for eta in etas]
+        self.leave_times = [self.construct_leave_time(eta) for eta in etas]
         self.has_nonnegative_leave_time = any(l.leave_time > 0 for l in self.leave_times)
+
+    def construct_leave_time(self, eta):
+        opts = dict(
+            route_name=cta.route_name_from_eta_train(eta),
+            color=eta.find('rt').text
+        )
+        eta_in_mins = cta.eta_in_minutes_train(eta)
+
+        return LeaveTime(eta_in_mins, self.walk_time_min, **opts)
 
     def to_dict(self):
         return dict(

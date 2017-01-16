@@ -34,7 +34,7 @@ def get_train_etas(station_id, direction_id=None, max_results=None):
         url += "&max={}".format(max_results)
 
     res = requests.get(url)
-    
+    print "Got train requests with status code {}".format(res.status_code)
     if res.status_code != 200:
         raise Exception("Bad API request; error code {}".format(res.status_code))
 
@@ -53,28 +53,35 @@ def get_bus_etas(route, station_id, direction_id, max_results=None):
     url = construct_base_url_bus(route, station_id, direction_id)
 
     res = requests.get(url)
-
+    print "Got bus requests with status code {}".format(res.status_code)
     if res.status_code != 200:
         raise Exception("Bad API request; error code {}".format(res.status_code))
 
     tree = ET.fromstring(res.text)
 
-    if tree.find('error') is not None:
-        raise Exception("Error returned by bus API: {}".format(tree.find('error').find('msg').text))
+    error = tree.find('error')
+
+    if error is not None:
+        error_text = error.find('msg').text
+
+        if error_text == "No arrival times":
+            print "No arrival times found for bus route {}".format(route)
+        else:
+            raise Exception("Error returned by bus API: {}".format(error_text))
 
     return tree.findall('prd')
 
 
 def route_name_from_eta_train(eta):
-    rt = eta.find('rt').text
+    rt          = eta.find('rt').text
     destination = eta.find('destNm').text
-    stop_name = eta.find('staNm').text
+    stop_name   = eta.find('staNm').text
 
     return "{} Line to {} at {}".format(_route_name_map_filter(rt), destination, stop_name)
 
 
 def route_name_from_eta_bus(prd):
-    rt =        prd.find('rt').text
+    rt        = prd.find('rt').text
     direction = prd.find('rtdir').text
     stop_name = prd.find('stpnm').text
 
