@@ -119,9 +119,11 @@ class Container extends React.Component {
                 </div>
             );
         } else {
-            return <h3 className="loading">Loading...</h3>
+            return <h3 className="loading app">Loading...</h3>
         }
     }
 };
 
 ReactDOM.render(<Container />, document.getElementById('mount-point') );
+
+window.React = React;

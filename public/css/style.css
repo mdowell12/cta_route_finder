@@ -10,14 +10,10 @@
     height: 100%;
 }
 
-.masonry:after {
-  content: '';
-  display: block;
-  clear: both;
-}
 
 .loading {
-    margin: 15%;
+    color: white;
+    padding: 15%;
     font-size: 50px;
 }
 
