@@ -18,7 +18,6 @@ const MASONRY_ITEM_CLASSES = [
 
 class Utils {
     static prettyMinutes (s) {
-        // console.log(s)
         return Math.round(s);
     };
 };
@@ -79,14 +78,24 @@ class Container extends React.Component {
     getData() {
         var self = this;
 
-        fetch('/api')
+        var myHeaders = new Headers();
+        myHeaders.append('pragma', 'no-cache');
+        myHeaders.append('cache-control', 'no-cache');
+
+        var myInit = {
+            method: 'GET',
+            headers: myHeaders,
+        };
+
+
+        fetch('/api', myInit)
         .then(function (response) {
             return response.json();
         })
         .then(function (json) {
             self.setState({data: json});
         })
-        .catch(function(response) {console.log(response.message)} )
+        .catch(function(response) {alert(response.message)} )
         ;
     }
 
